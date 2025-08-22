@@ -1,0 +1,99 @@
+.profile-menu-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: flex-end;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.profile-menu-overlay.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.profile-menu {
+    width: 300px;
+    height: 100vh;
+    background: linear-gradient(135deg, #003366, #0077CC);
+    padding: 25px;
+    box-shadow: -5px 0 15px rgba(0, 150, 255, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    border-radius: 10px 0 0 10px;
+}
+
+.profile-menu h3 {
+    color: #00FFFF;
+    font-size: 24px;
+    margin-bottom: 15px;
+    text-shadow: 0px 0px 10px rgba(0, 255, 255, 0.8);
+}
+
+.profile-menu p {
+    color: #00FFFF;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.profile-button {
+    width: 90%;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    background: linear-gradient(135deg, #0099FF, #005FCC);
+    color: white;
+    text-shadow: 0px 0px 5px rgba(255, 255, 255, 0.6);
+}
+
+.profile-button:hover {
+    background: linear-gradient(135deg, #00CCFF, #007BFF);
+}
+
+.profile-button.logout {
+    background: linear-gradient(135deg, #FF4444, #CC0000);
+}
+
+.profile-button.logout:hover {
+    background: linear-gradient(135deg, #FF6666, #DD0000);
+}
+
+.profile-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid cyan;
+    margin-bottom: 10px;
+}
+
+
+
+.profile-button {
+    width: 90%;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    background: linear-gradient(135deg, #0099FF, #005FCC);
+    color: white;
+    text-shadow: 0px 0px 5px rgba(255, 255, 255, 0.6);
+}
+
+.profile-button:hover {
+    background: linear-gradient(135deg, #00CCFF, #007BFF);
+}

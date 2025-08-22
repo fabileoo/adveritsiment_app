@@ -1,0 +1,52 @@
+.confirm-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #001F3F, #0F2027);
+}
+
+.confirm-box {
+    background: rgba(0, 0, 0, 0.8);
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0px 0px 15px 5px rgba(0, 255, 255, 0.2);
+    animation: fadeIn 1s ease-in-out;
+}
+
+.loading-text {
+    color: cyan;
+    text-shadow: 0 0 10px cyan;
+}
+
+.success-text {
+    color: lime;
+    text-shadow: 0 0 10px lime;
+}
+
+.error-text {
+    color: red;
+    text-shadow: 0 0 10px red;
+}
+
+.neon-button {
+    background: linear-gradient(45deg, cyan, blue);
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.neon-button:hover {
+    box-shadow: 0 0 10px cyan;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}

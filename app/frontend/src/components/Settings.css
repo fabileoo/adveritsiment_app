@@ -1,0 +1,101 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    background-color: #001F3F; /* Или цвет в тон остальной страницы */
+}
+
+
+.settings-container {
+    text-align: center;
+    max-width: 400px;
+    margin: 50px auto;
+    background: rgba(0, 0, 50, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px cyan;
+    color: white;
+}
+
+.settings-box {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+input {
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border-radius: 5px;
+}
+
+button {
+    background: cyan;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: rgb(0, 200, 255);
+}
+
+.delete-button {
+    background: red;
+}
+
+.delete-button:hover {
+    background: darkred;
+}
+
+.error {
+    color: red;
+}
+
+.success {
+    color: lime;
+}
+
+/* Стили для загрузки аватара */
+.avatar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.avatar-preview {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid cyan;
+}
+
+.upload-btn {
+    display: inline-block;
+    background: linear-gradient(135deg, #00CCFF, #007BFF);
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    text-shadow: 0px 0px 5px rgba(255, 255, 255, 0.6);
+}
+
+.upload-btn input {
+    display: none;
+}
+
+.upload-avatar-button {
+    background: cyan;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.upload-avatar-button:hover {
+    background: rgb(0, 200, 255);
+}
