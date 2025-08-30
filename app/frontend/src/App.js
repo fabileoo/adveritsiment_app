@@ -3,12 +3,10 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Login from './components/Login';
 import Register from './components/Register';
 import Dashboard from './components/Dashboard';
-import Races from './components/Races';
 import ProfileMenu from './components/ProfileMenu';
 import Settings from './components/Settings';
 import EmailVerification from './components/EmailVerification'; 
 import EmailConfirmPage from './components/EmailConfirmPage'; 
-import BetHistory from './components/BetHistory';
 import ResetPassword from './components/ResetPassword';
 import ResetPasswordRequest from './components/ResetPasswordRequest';
 import './App.css';
@@ -51,13 +49,11 @@ function App() {
         <Routes>
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="/dashboard" element={<PrivateRoute element={<Dashboard />} />} />
-          <Route path="/races" element={<PrivateRoute element={<Races />} />} />
           <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
           <Route path="/register" element={<Register />} />
           <Route path="/settings" element={<PrivateRoute element={<Settings />} />} />
           <Route path="/email-verification" element={<EmailVerification />} />
           <Route path="/email-confirm" element={<EmailConfirmPage />} />
-          <Route path="/bet-history" element={<PrivateRoute element={<BetHistory />} />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/reset-password-request" element={<ResetPasswordRequest />} />
           <Route path="*" element={<Navigate to="/dashboard" replace />} />

@@ -30,18 +30,18 @@ load_dotenv()
 
 ph = PasswordHasher()
 app = FastAPI()
-
+#anti-dudos
 limiter = Limiter(key_func=get_remote_address)
 app.state.limiter = limiter
 
 @app.exception_handler(RateLimitExceeded)
 async def rate_limit_handler(request: Request, exc: RateLimitExceeded):
     return PlainTextResponse("Too Many Requests", status_code=429)
-
+#platezka
 stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
 endpoint_secret = os.getenv("STRIPE_ENDPOINT_SECRET")
 
-
+#rasylka --- kak rabotajet ??
 from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
 from pydantic import EmailStr
 import secrets  
@@ -61,12 +61,14 @@ MAIL_CONFIG = ConnectionConfig(
 
 fm = FastMail(MAIL_CONFIG)
 
+#avatary
 AVATAR_DIR = "static/avatars/"
 os.makedirs(AVATAR_DIR, exist_ok=True)
 
-
+#clasic avatar
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
+#jwt token
 SECRET_KEY = os.getenv("JWT_SECRET_KEY")
 ALGORITHM = os.getenv("JWT_ALGORITHM")
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
@@ -99,6 +101,7 @@ def create_reset_token(email: str, expires_delta: timedelta = timedelta(minutes=
 
 @app.post("/users/request-password-reset")
 @limiter.limit("5/minute")
+
 async def request_password_reset(request: Request, email: str = Body(..., embed=True)):
     cursor.execute("SELECT * FROM users WHERE email = ?", email)
     user = cursor.fetchone()
@@ -164,6 +167,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
 
 from fastapi.middleware.cors import CORSMiddleware
 
+#link good work ??
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"], 
@@ -193,26 +197,10 @@ class User(BaseModel):
     password: str
     email: str = Field(..., max_length=255)
 
-class Race(BaseModel):
-    race_id: str
-    track: str
-    bots: List[str]
-    status: str = "pending"
-
-class Bet(BaseModel):
-    user_id: str
-    race_id: str
-    bot_id: str
-    amount: float
-
-class RaceResult(BaseModel):
-    race_id: str
-    winner_bot: str
-    user_payouts: dict
-
 
 import bcrypt
 
+#popolniashka ??
 @app.post("/webhook")
 async def stripe_webhook(request: Request):
     payload = await request.body()
@@ -368,7 +356,7 @@ async def login_user(request: Request,data: LoginData):
     access_token = create_access_token(data={"sub": username})
     return {"message": "Login successful", "username": username, "email": email, "balance": balance, "access_token": access_token}
 
-
+#podtwerzdenije poczty
 @app.post("/users/send-confirmation")
 async def send_confirmation_email(email: str):
     cursor.execute("SELECT * FROM users WHERE email = ?", email)
@@ -424,21 +412,6 @@ async def update_user(data: UpdateUser, username: str = Depends(get_current_user
     return {"message": "Profile updated successfully", "new_username": data.username, "new_token": new_token}
 
 
-@app.get("/bets/history")
-async def get_user_bet_history(username: str = Depends(get_current_user)):
-    cursor.execute("SELECT id FROM users WHERE username = ?", username)
-    user = cursor.fetchone()
-    
-    if not user:
-        raise HTTPException(status_code=404, detail="User not found")
-
-    user_id = user[0]  # Получаем ID пользователя
-    cursor.execute("SELECT race_id, bot_id, amount FROM bets WHERE user_id = ?", user_id)
-    bets = cursor.fetchall()
-
-    return {"bets": [{"race_id": row[0], "bot_id": row[1], "amount": row[2]} for row in bets]}
-
-
 @app.delete("/users/delete")
 async def delete_user(username: str = Depends(get_current_user)):  # ✅ Правильный способ получать username
     cursor.execute("SELECT * FROM users WHERE username = ?", username)
@@ -454,6 +427,7 @@ async def delete_user(username: str = Depends(get_current_user)):  # ✅ Пра�
 
 from fastapi.responses import RedirectResponse
 
+#podtwerzdenije email polzowateel
 @app.get("/users/confirm")
 async def confirm_email(token: str):
     try:
@@ -488,72 +462,7 @@ async def update_user_balance(username: str, amount: float):
     conn.commit()
     return {"message": "Balance updated successfully", "new_balance": new_balance}
 
-# Роуты для управления гонками
-@app.post("/races")
-async def create_race(race: Race):
-    cursor.execute(
-        "INSERT INTO races (track, bots, status) VALUES (?, ?, ?)",
-        race.track, ",".join(race.bots), race.status
-    )
-    conn.commit()
-    return {"message": "Race created successfully"}
-
-@app.get("/races")
-async def list_races():
-    cursor.execute("SELECT * FROM races")
-    races = cursor.fetchall()
-    return {"races": [{"race_id": row[0], "track": row[1], "bots": row[2].split(","), "status": row[3]} for row in races]}
-
-@app.get("/races/{race_id}")
-async def get_race(race_id: str):
-    cursor.execute("SELECT * FROM races WHERE race_id = ?", race_id)
-    race = cursor.fetchone()
-    if not race:
-        raise HTTPException(status_code=404, detail="Race not found")
-    return {"race_id": race[0], "track": race[1], "bots": race[2].split(","), "status": race[3]}
-
-@app.patch("/races/{race_id}/status")
-async def update_race_status(race_id: str, status: str, winner: Optional[str] = None):
-    cursor.execute("SELECT * FROM races WHERE race_id = ?", race_id)
-    race = cursor.fetchone()
-    if not race:
-        raise HTTPException(status_code=404, detail="Race not found")
-    if winner:
-        cursor.execute("UPDATE races SET status = ?, winner = ? WHERE race_id = ?", status, winner, race_id)
-    else:
-        cursor.execute("UPDATE races SET status = ? WHERE race_id = ?", status, race_id)
-    conn.commit()
-    return {"message": "Race status updated successfully"}
-
-# Роуты для управления ставками
-@app.post("/bets/")
-async def place_bet(bet: Bet):
-    cursor.execute("SELECT balance FROM users WHERE username = ?", bet.user_id)
-    user = cursor.fetchone()
-    if not user:
-        raise HTTPException(status_code=404, detail="User not found")
-    if user[0] < bet.amount:
-        raise HTTPException(status_code=400, detail="Insufficient balance")
-    cursor.execute(
-        "INSERT INTO bets (user_id, race_id, bot_id, amount) VALUES (?, ?, ?, ?)",
-        bet.user_id, bet.race_id, bet.bot_id, bet.amount
-    )
-    cursor.execute("UPDATE users SET balance = balance - ? WHERE username = ?", bet.amount, bet.user_id)
-    conn.commit()
-    return {"message": "Bet placed successfully"}
-
-@app.get("/bets/user/{user_id}")
-async def get_user_bets(user_id: str):
-    cursor.execute("SELECT * FROM bets WHERE user_id = ?", user_id)
-    bets = cursor.fetchall()
-    return {"bets": [{"bet_id": row[0], "race_id": row[1], "bot_id": row[2], "amount": row[3]} for row in bets]}
-
-@app.get("/bets/race/{race_id}")
-async def get_race_bets(race_id: str):
-    cursor.execute("SELECT * FROM bets WHERE race_id = ?", race_id)
-    bets = cursor.fetchall()
-    return {"bets": [{"bet_id": row[0], "user_id": row[1], "bot_id": row[2], "amount": row[3]} for row in bets]}
-
+#  kak rabotajet ??
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)

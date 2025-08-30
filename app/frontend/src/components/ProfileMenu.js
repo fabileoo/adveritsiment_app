@@ -56,11 +56,6 @@ const ProfileMenu = ({ isOpen, onClose }) => {
                 <h3>{userData.username || "Loading..."}</h3>
                 <p>Balance: {userData.balance !== undefined ? `${userData.balance}$` : "Loading..."}</p>
 
-                <button className="profile-button" onClick={() => {
-                    navigate("/bet-history");
-                    onClose();
-                }}>Bet History</button>
-
                 <button className="profile-button settings" onClick={() => {
                     navigate("/settings");
                     onClose();
