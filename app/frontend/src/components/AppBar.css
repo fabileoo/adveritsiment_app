@@ -1,0 +1,62 @@
+.app-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #5d7546;
+  padding: 20px 40px;
+  color: white;
+  font-size: 18px;
+}
+
+.app-title {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* .app-title:hover {
+  color: #ffffff;
+} */
+
+.app-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.profile-area {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.profile-name {
+  font-weight: bold;
+}
+
+.profile-balance {
+  background: #333;
+  padding: 6px 16px;
+  border-radius: 8px;
+}
+
+.auth-btn {
+  background: #f8f8f8;
+  border: none;
+  padding: 8px 16px;
+  color: rgb(40, 82, 32);
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+  font-size: 16px;
+}
+
+.auth-btn:hover {
+  background: #00e61f;
+}

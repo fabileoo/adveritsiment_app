@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/Login';
 import Register from './components/Register';
+import AppBar from './components/AppBar';
 import Dashboard from './components/Dashboard';
 import ProfileMenu from './components/ProfileMenu';
 import Settings from './components/Settings';
@@ -35,16 +36,12 @@ function App() {
   return (
     <Router>
       <div className="app-container">
-        {isAuthenticated && !profileOpen && (
-          <div className="top-bar">
-            <span className="profile-name" onClick={() => setProfileOpen(true)}>
-              {username}
-            </span>
-            <span className="profile-balance" onClick={() => setProfileOpen(true)}>
-              ${balance}
-            </span>
-          </div>
-        )}
+        <AppBar 
+          isAuthenticated={isAuthenticated}
+          username={username}
+          balance={balance}
+          onProfileClick={()=>setProfileOpen(true)}
+          />
         <ProfileMenu isOpen={profileOpen} onClose={() => setProfileOpen(false)} setIsAuthenticated={setIsAuthenticated} />
         <Routes>
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
