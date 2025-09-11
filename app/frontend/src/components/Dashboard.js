@@ -17,10 +17,7 @@ const Dashboard = () => {
 
    return (
         <div className="dashboard-container">
-            <div className="dashboard-box">
-                <h2 className="dashboard-title">Welcome to the Future</h2>
-            </div>
-
+           
             {/* Блок с объявлениями */}
             <div className="ads-section">
                 <h2 className="dashboard-title">📢 Available Ads</h2>
