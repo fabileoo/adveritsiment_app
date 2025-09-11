@@ -197,6 +197,12 @@ class User(BaseModel):
     password: str
     email: str = Field(..., max_length=255)
 
+class Ad(BaseModel):
+    title: str
+    description: str
+    price: float
+    image: Optional[str] = None
+
 
 import bcrypt
 
@@ -466,3 +472,28 @@ async def update_user_balance(username: str, amount: float):
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
+
+@app.get("/ads")
+async def get_ads():
+     cursor.execute("SELECT id, title, description, price, image FROM Ads ORDER BY id DESC")
+     rows = cursor.fetchall()
+     ads = []
+     for row in rows:
+         ads.append({
+             "id": row[0],
+             "title": row[1],
+             "description": row[2],
+             "price": float(row[3]),
+             "image": row[4]
+         })
+     return ads
+
+
+@app.post("/ads")
+async def create_ad(ad: Ad, username: str = Depends(get_current_user)):
+    cursor.execute(
+        "INSERT INTO Ads (title, description, price, image) VALUES (?, ?, ?, ?)",
+        ad.title, ad.description, ad.price, ad.image
+    )
+    conn.commit()
+    return {"message": "Ad created successfully"}

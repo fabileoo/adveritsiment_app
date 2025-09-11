@@ -63,3 +63,55 @@
     gap: 15px;
     margin-top: 20px;
 }
+
+.ads-section {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.ads-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.ad-card {
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid #0ff;
+    border-radius: 12px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 0 15px #0ff;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.ad-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 25px #0ff;
+}
+
+.ad-image {
+    max-width: 100%;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.ad-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #0ff;
+    margin-bottom: 5px;
+}
+
+.ad-description {
+    font-size: 0.9rem;
+    color: #ccc;
+    margin-bottom: 10px;
+}
+
+.ad-price {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #0ff;
+}
